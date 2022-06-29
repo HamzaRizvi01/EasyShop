@@ -11,6 +11,13 @@ State_Choices = (
     ('Balochistan','Balochistan'),
     ('KPK','KPK'),
 )
+Status_Choice = (
+    ('Accepted', 'Accepted'),
+    ('Packed', 'Packed'),
+    ('On The Way', 'On The Way'),
+    ('Delivered', 'Delivered'),
+    ('Cancel', 'Cancel'),
+)
 
 class Customer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -29,15 +36,16 @@ Category_Choice = (
 )
 
 class Product(models.Model):
-    title = models.CharField(max_length=100)
-    selling_price = models.FloatField()
-    discounted_price = models.FloatField()
-    description = models.TextField()
-    Rating = models.FloatField()
-    Sold = models.IntegerField()
-    brand = models.CharField(max_length=100)
-    category = models.CharField(choices=Category_Choice, max_length=1)
+    #id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
     product_image = models.ImageField(upload_to='productimg')
+    title = models.CharField(max_length=100)
+    Sold = models.IntegerField()
+    Rating = models.FloatField()
+    selling_price = models.FloatField()
+    sentiment = models.CharField(max_length=10, default='NULL')
+    website = models.CharField(max_length=10, default='NULL')
+    
+    
 
 def __str__(str):
     return str(self.id)
@@ -47,16 +55,14 @@ class Cart(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
 
-def __str__(self):
-    return str(self.id)
+    def __str__(self):
+        return str(self.id)
 
-Status_Choice = (
-    ('Accepted', 'Accepted'),
-    ('Packed', 'Packed'),
-    ('On The Way', 'On The Way'),
-    ('Delivered', 'Delivered'),
-    ('Cancel', 'Cancel'),
-)
+    @property
+    def total_cost(self):
+        return self.quantity * self.product.selling_price
+
+
 
 class OrderPlaced(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -64,8 +70,15 @@ class OrderPlaced(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     ordered_date = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=50, choices=State_Choices, default='Pending')
+    status = models.CharField(max_length=50, choices=Status_Choice, default='Pending')
 
-def __str__(self):
-    return str(self.id)
+    def __str__(self):
+     return str(self.id)
+
+     
+    @property
+    def total_cost(self):
+        return self.quantity * self.product.selling_price
+
+
 # Create your models here.

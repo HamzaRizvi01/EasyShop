@@ -25,14 +25,11 @@ SECRET_KEY = 'django-insecure-0!@#k9bsf)4-g-pf5bkc^n2#uw*&s%6&wko$#ox$9e8$5alqvi
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['b811-111-68-99-9.ap.ngrok.io','http://127.0.0.1:8000','*','127.0.0.1', 'localhost']
-CSRF_TRUSTED_ORIGIN=['b811-111-68-99-9.ap.ngrok.io']
+ALLOWED_HOSTS = ['https://ff5e-111-68-99-9.in.ngrok.io','http://127.0.0.1:8000','*','127.0.0.1', 'localhost', 'https://ad6b-111-68-99-9.ap.ngrok.io ']
+CSRF_TRUSTED_ORIGINS=[ 'https://ff5e-111-68-99-9.in.ngrok.io ','https://*.127.0.0.1']
 CSRF_COOKIE_SECURE=False
 SESSION_COOKIE_SECURE=True
-
-
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,10 +41,10 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -126,7 +123,14 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+EMAIL_USE_TLS = True  
+EMAIL_HOST = 'smtp.gmail.com'  
+EMAIL_HOST_USER = 'hamza.ahmedrizvi@gmail.com'  
+EMAIL_HOST_PASSWORD = '123456789'  
+EMAIL_PORT = 587  
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_REDIRECT_URL = '/profile/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SESSION_ENGINE = "django.contrib.sessions.backends.db"

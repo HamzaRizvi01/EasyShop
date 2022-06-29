@@ -4,6 +4,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import path, reverse
 from django import forms
+from django.utils.html import format_html
+from django.urls import reverse
 from .models import (
     Customer,
     Product,
@@ -20,7 +22,7 @@ class CustomerModelAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductModelAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'selling_price','discounted_price' ,'description','Rating','Sold','brand', 'category']
+    list_display = ['product_image', 'title', 'Sold', 'Rating','selling_price','website' ]
     def get_urls(self):
         urls = super().get_urls()
         new_urls = [path('upload-csv/', self.upload_csv),]
@@ -36,16 +38,13 @@ class ProductModelAdmin(admin.ModelAdmin):
             for x in csv_data:
                 fields = x.split(",")
                 created = Product.objects.update_or_create(
-                    id = fields[0],
+                    product_image = fields[0],
                     title = fields[1],
-                    selling_price = fields[2],
-                    discounted_price = fields[3],
-                    description = fields[4],
-                    Rating = fields[5],
-                    Sold = fields[6],
-                    brand = fields[7],
-                    category = fields[8],
-                    #product_image = fields[7]
+                    Sold = fields[2],
+                    Rating = fields[3],
+                    selling_price = fields[4],
+                    sentiment = fields[5],
+                    website = fields[6]
                 )
             url = reverse('admin:index')
             return HttpResponseRedirect(url)
@@ -59,4 +58,13 @@ class CartModelAdmin(admin.ModelAdmin):
 
 @admin.register(OrderPlaced)
 class OrderPlacedModelAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'customer', 'product','quantity', 'ordered_date', 'status']
+    list_display = ['id', 'user', 'customer', 'customer_info' ,'product','quantity', 'ordered_date', 'status']
+
+
+    def customer_info(self,obj):
+        link = reverse("admin:app_customer_change", args=[obj.customer.pk])
+        return format_html('<a href="{}">{}</a>',link,obj.customer.name)
+    
+    
+
+

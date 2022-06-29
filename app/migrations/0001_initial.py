@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
                 ('Sold', models.IntegerField()),
                 ('brand', models.CharField(max_length=100)),
                 ('category', models.CharField(choices=[('M', 'Mobile'), ('L', 'Laptop')], max_length=1)),
-                ('product_image', models.ImageField(upload_to='productimg')),
+                #('product_image', models.ImageField(upload_to='productimg')),
             ],
         ),
         migrations.CreateModel(

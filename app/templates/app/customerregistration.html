@@ -15,11 +15,11 @@
          {% endfor %}
       {% endif %}
       {% csrf_token %}
-      {% for fm in form %}
+       {% for fm in form %}
          <div class="form-group mb-3">
             {{fm.label_tag}} {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small>
          </div>
-      {% endfor %}
+       {% endfor %}
       <input type="submit" value="Submit" class="btn btn-primary">
       <br>
       <div class="text-center text-primary fw-bold">

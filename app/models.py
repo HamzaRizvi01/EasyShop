@@ -5,11 +5,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 State_Choices = (
-    ('Punjab','Lahore'),
-    ('Islamabad','Islamabad'),
-    ('Sindh','Karachi'),
-    ('Balochistan','Quetta'),
-    ('KPK','Peshawer'),
+    ('Punjab','Punjab'),
+    ('Islamabad','ICT'),
+    ('Sindh','Sindh'),
+    ('Balochistan','Balochistan'),
+    ('KPK','KPK'),
 )
 
 class Customer(models.Model):
